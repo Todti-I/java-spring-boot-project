@@ -22,11 +22,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/index").permitAll()
-                .antMatchers("/shops/**").authenticated()
-                .antMatchers("/books/**").authenticated()
-                .antMatchers("/users").hasRole("ADMIN")
+                .antMatchers("/shops").hasRole("READ_ONLY")
+                .antMatchers("/shops/**").hasRole("ADMIN")
+                .antMatchers("/books").hasRole("READ_ONLY")
+                .antMatchers("/books/**").hasRole("ADMIN")
+                .antMatchers("/users/**").hasRole("ADMIN")
                 .and()
                 .formLogin(
                         form -> form

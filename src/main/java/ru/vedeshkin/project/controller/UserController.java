@@ -9,22 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.vedeshkin.project.dto.UserDto;
-import ru.vedeshkin.project.entity.User;
 import ru.vedeshkin.project.model.CustomUserDetails;
 import ru.vedeshkin.project.repository.UserRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
 @RequestMapping("/users")
-public class UsersController {
+public class UserController {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UsersController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -39,12 +37,6 @@ public class UsersController {
         mav.addObject("users", users);
 
         return mav;
-    }
-
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam Long userId) {
-        userRepository.deleteById(userId);
-        return "redirect:/users";
     }
 
 }

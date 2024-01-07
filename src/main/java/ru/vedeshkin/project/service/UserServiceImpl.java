@@ -9,6 +9,7 @@ import ru.vedeshkin.project.repository.RoleRepository;
 import ru.vedeshkin.project.repository.UserRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,10 +33,9 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = roleRepository.findByName("ROLE_READ_ONLY");
         if (role == null) {
-            role = checkRoleExist();
+            throw new NoSuchElementException("Role READ_ONLY not found");
         }
         user.setRoles(List.of(role));
         userRepository.save(user);
@@ -53,12 +53,6 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(UserDto::mapTo)
                 .collect(Collectors.toList());
-    }
-
-    private Role checkRoleExist() {
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        return roleRepository.save(role);
     }
 
 }

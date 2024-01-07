@@ -44,15 +44,14 @@
 <br><br>
 
 <div class="container">
-    <a th:href="@{/books/add}" class="btn btn-primary">Add Book</a>
-    <br/><br/>
+    <a th:if="${user.isAdmin()}" th:href="@{/books/add}" class="btn btn-primary mb-4">Add Book</a>
     <table th:if="${!books.isEmpty()}" class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
             <th>Author</th>
             <th>Title</th>
             <th>Price</th>
-            <th></th>
+            <th th:if="${user.isAdmin()}"></th>
         </tr>
         </thead>
         <tbody>
@@ -60,7 +59,7 @@
             <td th:text="${book.author}"/>
             <td th:text="${book.title}"/>
             <td th:text="${book.price}"/>
-            <td>
+            <td th:if="${user.isAdmin()}">
                 <a th:href="@{/books/edit(bookId=${book.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/books/delete(bookId=${book.id})}" class="btn btn-danger ml-2">Delete</a>
             </td>

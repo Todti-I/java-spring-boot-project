@@ -30,16 +30,12 @@ public class UserDto {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
-    public UserDto(User user) {
-        id = user.getId();
-        firstName = user.getName();
-    }
-
     public static UserDto mapTo(User user) {
         UserDto userDto = new UserDto();
         String[] names = user.getName().split(" ");
-        userDto.setFirstName(names[0]);
-        userDto.setLastName(names[1]);
+        userDto.setId(user.getId());
+        userDto.setFirstName(names.length > 0 ? names[0] : "");
+        userDto.setLastName(names.length > 1 ? names[1] : "");
         userDto.setEmail(user.getEmail());
         return userDto;
     }
