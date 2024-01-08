@@ -1,25 +1,25 @@
 INSERT INTO roles (name) VALUES ('ROLE_READ_ONLY'), ('ROLE_ADMIN');
 
 INSERT INTO books (title, author, price) VALUES
-('Мастер и Маргарита', 'Михаил Булгаков', 700),
-('1984', 'Джордж Оруэлл', 600),
-('Анна Каренина', 'Лев Толстой', 800),
-('Гарри Поттер и философский камень', 'Дж.К. Роулинг', 500),
-('Тень ветра', 'Карлос Руис Сафон', 750),
-('Война и мир', 'Лев Толстой', 900),
-('Маленький принц', 'Антуан де Сент-Экзюпери', 400),
-('Над пропастью во ржи', 'Джером Д. Сэлинджер', 550),
-('Фауст', 'Иоганн Вольфганг Гёте', 680),
-('Лолита', 'Владимир Набоков', 720);
+('The Master and Margarita', 'Mikhail Bulgakov', 700),
+('1984', 'George Orwell', 600),
+('Anna Karenina', 'Leo Tolstoy', 800),
+('Harry Potter and the Philosopher''s Stone', 'J.K. Rowling', 500),
+('The Shadow of the Wind', 'Carlos Ruiz Zafón', 750),
+('War and Peace', 'Leo Tolstoy', 900),
+('The Little Prince', 'Antoine de Saint-Exupéry', 400),
+('The Catcher in the Rye', 'J.D. Salinger', 550),
+('Faust', 'Johann Wolfgang von Goethe', 680),
+('Lolita', 'Vladimir Nabokov', 720);
 
 INSERT INTO shops (name, address) VALUES
-('Литературный уголок', 'ул. Пушкина, 10, Городовик'),
-('Книжная гавань', 'пр. Героев, 25, Читальноград'),
-('Сказочные страницы', 'пер. Фантастики, 7, Литературный город'),
-('Книги и кофе', 'ул. Чайковского, 15, Кафе-книжная Кроме'),
-('Путеводитель по страницам', 'пл. Мифов, 3, Литературная столица'),
-('Букварный рай', 'наб. Аллегорий, 12, Литературная бухта'),
-('Проходной том', 'пр. Романтики, 42, Литературный проход'),
-('Словесный оазис', 'ул. Перипетии, 8, Героическ'),
-('Библио-сад', 'садовое кольцо, 33, Цветочные слова'),
-('Книгоплет', 'пер. Сюжетный, 5, Ремесленный город');
+('Literary Corner', 'Pushkin Street, 10, Cityville'),
+('Book Harbor', 'Heroes Avenue, 25, Readington'),
+('Fairy Tale Pages', 'Fantasy Lane, 7, Literary City'),
+('Books and Coffee', 'Tchaikovsky Street, 15, Café-bookstore Krome'),
+('Guide through Pages', 'Myths Square, 3, Literary Capital'),
+('Alphabet Paradise', 'Allegory Embankment, 12, Literary Bay'),
+('Passage Tome', 'Romance Avenue, 42, Literary Passage'),
+('Verbal Oasis', 'Peripeteia Street, 8, Heroic'),
+('Bibliogarden', 'Garden Ring, 33, Floral Words'),
+('Bookbinder', 'Plot Twist Lane, 5, Craftsmen City');

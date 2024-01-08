@@ -53,6 +53,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th></th>
         </tr>
         </thead>
         <tbody class="align-middle">
@@ -60,6 +61,10 @@
             <td th:text="${user.firstName}"></td>
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.email}"></td>
+            <td class="text-center">
+                <a th:href="@{/users/change-roles(userId=${user.id})}" class="btn btn-info">Change Roles</a>
+                <a th:href="@{/users/delete(userId=${user.id})}" class="btn btn-danger ml-2">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>

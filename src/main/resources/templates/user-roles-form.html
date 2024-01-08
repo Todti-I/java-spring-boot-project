@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Books Management System</title>
@@ -10,7 +8,6 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 </head>
-
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -21,7 +18,7 @@
                 <a class="nav-link" aria-current="page" th:href="@{/books}">Books</a>
             </li>
             <li th:if="${user != null}" class="nav-item">
-                <a class="nav-link active" aria-current="page" th:href="@{/shops}">Shops</a>
+                <a class="nav-link" aria-current="page" th:href="@{/shops}">Shops</a>
             </li>
             <li th:if="${user?.isAdmin()}" class="nav-item">
                 <a class="nav-link" aria-current="page" th:href="@{/users}">Users</a>
@@ -41,32 +38,33 @@
     </div>
 </nav>
 
-<br/><br/>
-
 <div class="container">
-    <a th:if="${user.isAdmin()}" th:href="@{/shops/add}" class="btn btn-primary mb-4">Add Shop</a>
-    <table th:if="${!shops.isEmpty()}" class="table table-bordered table-striped">
-        <thead class="table-dark">
-        <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Books Count</th>
-            <th th:if="${user.isAdmin()}"></th>
-        </tr>
-        </thead>
-        <tbody class="align-middle">
-        <tr th:each="shop: ${shops}">
-            <td th:text="${shop.name}"/>
-            <td th:text="${shop.address}"/>
-            <td th:text="${shop.books.size()}" class="text-center"/>
-            <td th:if="${user.isAdmin()}" class="text-center">
-                <a th:href="@{/shops/edit(shopId=${shop.id})}" class="btn btn-info">Update</a>
-                <a th:href="@{/shops/delete(shopId=${shop.id})}" class="btn btn-danger ml-2">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <h2 th:if="${shops.isEmpty()}" class="text-center">No Shops</h2>
+
+    <hr/>
+    <h3>Change Roles [[${userDto.firstName}]] [[${userDto.lastName}]]</h3>
+    <hr/>
+
+    <form th:action="@{/users/roles}" th:object="${userDto}" method="POST">
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="mb-4">
+            <div th:each="role : ${allRoles}" class="mb-1">
+                <input
+                        th:id="|role-${role.id}|"
+                        th:disabled="${role.name == 'ROLE_READ_ONLY'}"
+                        type="checkbox"
+                        th:field="*{roleIds}"
+                        th:value="${role.id}"
+                />
+                <label th:for="|role-${role.id}|" th:text="${role.name}"></label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary col-2">Save</button>
+    </form>
+    <hr/>
+    <a th:href="@{/users}">Back to list</a>
 </div>
 
 </body>

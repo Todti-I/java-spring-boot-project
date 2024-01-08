@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.vedeshkin.project.entity.Role;
 import ru.vedeshkin.project.entity.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,6 +33,8 @@ public class UserDto {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
+    private List<Long> roleIds = new ArrayList<>();
+
     public static UserDto of(User user) {
         UserDto userDto = new UserDto();
         String[] names = user.getName().split(" ");
@@ -37,6 +42,7 @@ public class UserDto {
         userDto.setFirstName(names.length > 0 ? names[0] : "");
         userDto.setLastName(names.length > 1 ? names[1] : "");
         userDto.setEmail(user.getEmail());
+        userDto.setRoleIds(user.getRoles().stream().map(Role::getId).toList());
         return userDto;
     }
 
