@@ -1,6 +1,6 @@
 package ru.vedeshkin.project.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,19 +11,22 @@ import ru.vedeshkin.project.dto.ShopDto;
 import ru.vedeshkin.project.entity.Shop;
 import ru.vedeshkin.project.entity.User;
 import ru.vedeshkin.project.model.CustomUserDetails;
+import ru.vedeshkin.project.service.ActionService;
 import ru.vedeshkin.project.service.ShopService;
 
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Controller
 @RequestMapping("/shops")
 public class ShopController {
 
+    private final ActionService actionService;
     private final ShopService shopService;
 
-    public ShopController(ShopService shopService) {
+    @Autowired
+    public ShopController(ActionService actionService, ShopService shopService) {
+        this.actionService = actionService;
         this.shopService = shopService;
     }
 
@@ -79,7 +82,8 @@ public class ShopController {
             }
         }
 
-        shopService.save(shopDto, user.getUserEntity());
+        Shop savedShop = shopService.save(shopDto, user.getUserEntity());
+        actionService.create(String.format("User %s saved shop %s", user.getId(), savedShop.getId()));
 
         return "redirect:/shops";
     }
@@ -117,6 +121,7 @@ public class ShopController {
         }
 
         shopService.deleteById(shopId);
+        actionService.create(String.format("User %s deleted shop %s", user.getId(), shopId));
 
         return "redirect:/shops";
     }

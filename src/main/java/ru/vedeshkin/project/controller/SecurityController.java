@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.vedeshkin.project.dto.UserDto;
 import ru.vedeshkin.project.entity.User;
 import ru.vedeshkin.project.model.CustomUserDetails;
+import ru.vedeshkin.project.service.ActionService;
 import ru.vedeshkin.project.service.UserService;
 
 import javax.validation.Valid;
@@ -20,10 +21,12 @@ import java.util.Optional;
 @Controller
 public class SecurityController {
 
+    private final ActionService actionService;
     private final UserService userService;
 
     @Autowired
-    public SecurityController(UserService userService) {
+    public SecurityController(ActionService actionService, UserService userService) {
+        this.actionService = actionService;
         this.userService = userService;
     }
 
@@ -53,8 +56,11 @@ public class SecurityController {
         Optional<User> existingUser = userService.findByEmail(userDto.getEmail());
 
         if (existingUser.isPresent()) {
-            result.rejectValue("email", null,
-                    "На этот адрес электронной почты уже зарегистрирована учетная запись.");
+            result.rejectValue(
+                    "email",
+                    null,
+                    "Account with this email is already registered"
+            );
         }
 
         if (result.hasErrors()) {
@@ -62,7 +68,8 @@ public class SecurityController {
             return "/register";
         }
 
-        userService.create(userDto);
+        User createdUser = userService.create(userDto);
+        actionService.create(String.format("User %s is registered", createdUser.getId()));
 
         return "redirect:/register?success";
     }

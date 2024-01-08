@@ -1,6 +1,5 @@
 package ru.vedeshkin.project.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,22 +12,26 @@ import ru.vedeshkin.project.entity.Book;
 import ru.vedeshkin.project.entity.Shop;
 import ru.vedeshkin.project.entity.User;
 import ru.vedeshkin.project.model.CustomUserDetails;
+import ru.vedeshkin.project.service.ActionService;
 import ru.vedeshkin.project.service.BookService;
 import ru.vedeshkin.project.service.ShopService;
 
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Controller
 @RequestMapping("/books")
 public class BookController {
 
+    private final ActionService actionService;
     private final BookService bookService;
     private final ShopService shopService;
 
     @Autowired
-    public BookController(BookService bookService, ShopService shopService) {
+    public BookController(ActionService actionService,
+                          BookService bookService,
+                          ShopService shopService) {
+        this.actionService = actionService;
         this.bookService = bookService;
         this.shopService = shopService;
     }
@@ -100,7 +103,8 @@ public class BookController {
             }
         }
 
-        bookService.save(bookDto, user.getUserEntity());
+        Book savedBook = bookService.save(bookDto, user.getUserEntity());
+        actionService.create(String.format("User %s saved book %s", user.getId(), savedBook.getId()));
 
         return "redirect:/books";
     }
@@ -153,6 +157,7 @@ public class BookController {
         }
 
         bookService.deleteById(bookId);
+        actionService.create(String.format("User %s deleted book %s", user.getId(), bookId));
 
         return "redirect:/books";
     }

@@ -13,7 +13,7 @@ public interface ShopService {
 
     List<Shop> findAll();
 
-    void save(ShopDto shopDto, User currentUser);
+    Shop save(ShopDto shopDto, User currentUser);
 
     void deleteById(Long id);
 

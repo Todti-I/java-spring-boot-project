@@ -14,9 +14,9 @@ public interface UserService {
 
     List<User> findAll();
 
-    void create(UserDto userDto);
+    User create(UserDto userDto);
 
-    void saveRoles(UserDto userDto);
+    User saveRoles(UserDto userDto);
 
     void deleteById(Long id);
 

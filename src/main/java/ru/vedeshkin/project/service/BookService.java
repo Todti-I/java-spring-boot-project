@@ -13,7 +13,7 @@ public interface BookService {
 
     List<Book> findAll();
 
-    void save(BookDto bookDto, User currentUser);
+    Book save(BookDto bookDto, User currentUser);
 
     void deleteById(Long id);
 

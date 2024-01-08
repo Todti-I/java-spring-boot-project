@@ -1,5 +1,6 @@
 package ru.vedeshkin.project.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.vedeshkin.project.dto.UserDto;
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
                            PasswordEncoder passwordEncoder) {
@@ -44,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(UserDto userDto) {
+    public User create(UserDto userDto) {
         User user = new User();
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
@@ -54,15 +56,15 @@ public class UserServiceImpl implements UserService {
             throw new NoSuchElementException("Role READ_ONLY not found");
         }
         user.setRoles(List.of(role));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
-    public void saveRoles(UserDto userDto) {
+    public User saveRoles(UserDto userDto) {
         List<Role> roles = roleRepository.findAllById(userDto.getRoleIds());
         User user = userRepository.getReferenceById(userDto.getId());
         user.setRoles(roles);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override

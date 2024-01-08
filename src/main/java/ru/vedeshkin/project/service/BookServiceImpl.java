@@ -1,5 +1,6 @@
 package ru.vedeshkin.project.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vedeshkin.project.dto.BookDto;
 import ru.vedeshkin.project.entity.Book;
@@ -16,6 +17,7 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final ShopRepository shopRepository;
 
+    @Autowired
     public BookServiceImpl(BookRepository bookRepository, ShopRepository shopRepository) {
         this.bookRepository = bookRepository;
         this.shopRepository = shopRepository;
@@ -32,7 +34,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void save(BookDto bookDto, User currentUser) {
+    public Book save(BookDto bookDto, User currentUser) {
         Book book = new Book();
         if (bookDto.getId() != null) {
             Optional<Book> optionalBook = bookRepository.findById(bookDto.getId());
@@ -46,7 +48,7 @@ public class BookServiceImpl implements BookService {
         book.setAuthor(bookDto.getAuthor());
         book.setPrice(bookDto.getPrice());
         book.setShops(shopRepository.findAllById(bookDto.getShopIds()));
-        bookRepository.save(book);
+        return bookRepository.save(book);
     }
 
     @Override

@@ -10,7 +10,6 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 </head>
-
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -18,7 +17,7 @@
         <a class="navbar-brand" th:href="@{/}">Books Management System</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-grow-1">
             <li th:if="${user != null}" class="nav-item">
-                <a class="nav-link active" aria-current="page" th:href="@{/books}">Books</a>
+                <a class="nav-link" aria-current="page" th:href="@{/books}">Books</a>
             </li>
             <li th:if="${user != null}" class="nav-item">
                 <a class="nav-link" aria-current="page" th:href="@{/shops}">Shops</a>
@@ -27,7 +26,7 @@
                 <a class="nav-link" aria-current="page" th:href="@{/users}">Users</a>
             </li>
             <li th:if="${user?.isAdmin()}" class="nav-item">
-                <a class="nav-link" aria-current="page" th:href="@{/actions}">Actions</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/actions}">Actions</a>
             </li>
         </ul>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -44,52 +43,28 @@
     </div>
 </nav>
 
-<br><br>
+<br/><br/>
 
 <div class="container">
-    <a th:if="${user.canEdit()}" th:href="@{/books/add}" class="btn btn-primary mb-4">Add Book</a>
-    <table th:if="${!books.isEmpty()}" class="table table-bordered table-striped">
+    <div class="row col-md-10">
+        <h2>List of Users Actions</h2>
+    </div>
+    <br>
+    <table th:if="${!actions.isEmpty()}" class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
-            <th>Author</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Shops</th>
-            <th th:if="${user.canEdit()}">Actions</th>
+            <th class="text-center" style="width: 200px">Date</th>
+            <th>Description</th>
         </tr>
         </thead>
         <tbody class="align-middle">
-        <tr th:each="book: ${books}">
-            <td th:text="${book.author}"/>
-            <td th:text="${book.title}"/>
-            <td th:text="${book.price}"/>
-            <td>
-                <th:block th:each="shop : ${book.shops}">
-                    <p th:text="${shop.name}" class="mb-0"/>
-                </th:block>
-            </td>
-            <td th:if="${user.canEdit()}" class="text-center">
-                <a
-                        th:if="${user.isAdmin() or book.ownerUser?.id == user.getId()}"
-                        th:href="@{/books/edit(bookId=${book.id})}"
-                        class="btn btn-info"
-                >
-                    Update
-                </a>
-                <a
-                        th:if="${user.isAdmin() or book.ownerUser?.id == user.getId()}"
-                        th:href="@{/books/delete(bookId=${book.id})}"
-                        class="btn btn-danger ml-2"
-                >
-                    Delete
-                </a>
-            </td>
+        <tr th:each="action: ${actions}">
+            <td th:text="${#temporals.format(action.date, 'dd.MM.yyyy HH:mm:ss')}" class="text-center"></td>
+            <td th:text="${action.description}"></td>
         </tr>
         </tbody>
-
     </table>
-    <h2 th:if="${books.isEmpty()}" class="text-center">No Books</h2>
+    <h2 th:if="${actions.isEmpty()}" class="text-center">No Actions</h2>
 </div>
-
 </body>
 </html>

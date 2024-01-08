@@ -1,5 +1,6 @@
 package ru.vedeshkin.project.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vedeshkin.project.dto.ShopDto;
 import ru.vedeshkin.project.entity.Book;
@@ -15,6 +16,7 @@ public class ShopServiceImpl implements ShopService {
 
     private final ShopRepository shopRepository;
 
+    @Autowired
     public ShopServiceImpl(ShopRepository shopRepository) {
         this.shopRepository = shopRepository;
     }
@@ -30,7 +32,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public void save(ShopDto shopDto, User currentUser) {
+    public Shop save(ShopDto shopDto, User currentUser) {
         Shop shop = new Shop();
         if (shopDto.getId() != null) {
             Optional<Shop> optionalShop = shopRepository.findById(shopDto.getId());
@@ -42,7 +44,7 @@ public class ShopServiceImpl implements ShopService {
         }
         shop.setName(shopDto.getName());
         shop.setAddress(shopDto.getAddress());
-        shopRepository.save(shop);
+        return shopRepository.save(shop);
     }
 
     @Override
