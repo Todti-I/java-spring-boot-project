@@ -6,4 +6,5 @@ import ru.vedeshkin.project.entity.Book;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
+
 }

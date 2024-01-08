@@ -51,11 +51,11 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        Role role = roleRepository.findByName("ROLE_READ_ONLY");
-        if (role == null) {
+        Optional<Role> optionalRole = roleRepository.findByName("ROLE_READ_ONLY");
+        if (optionalRole.isEmpty()) {
             throw new NoSuchElementException("Role READ_ONLY not found");
         }
-        user.setRoles(List.of(role));
+        user.setRoles(optionalRole.stream().toList());
         return userRepository.save(user);
     }
 
