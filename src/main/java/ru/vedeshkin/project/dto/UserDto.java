@@ -30,7 +30,7 @@ public class UserDto {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
-    public static UserDto mapTo(User user) {
+    public static UserDto of(User user) {
         UserDto userDto = new UserDto();
         String[] names = user.getName().split(" ");
         userDto.setId(user.getId());

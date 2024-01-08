@@ -51,15 +51,21 @@
             <th>Author</th>
             <th>Title</th>
             <th>Price</th>
+            <th>Shops</th>
             <th th:if="${user.isAdmin()}"></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="align-middle">
         <tr th:each="book: ${books}">
             <td th:text="${book.author}"/>
             <td th:text="${book.title}"/>
             <td th:text="${book.price}"/>
-            <td th:if="${user.isAdmin()}">
+            <td>
+                <th:block th:each="shop : ${book.shops}">
+                    <p th:text="${shop.name}" class="mb-0"/>
+                </th:block>
+            </td>
+            <td th:if="${user.isAdmin()}" class="text-center">
                 <a th:href="@{/books/edit(bookId=${book.id})}" class="btn btn-info">Update</a>
                 <a th:href="@{/books/delete(bookId=${book.id})}" class="btn btn-danger ml-2">Delete</a>
             </td>

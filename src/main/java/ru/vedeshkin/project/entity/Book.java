@@ -30,7 +30,7 @@ public class Book {
     @Column(nullable = false)
     private Double price;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(
             name = "shops_books",
             joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},

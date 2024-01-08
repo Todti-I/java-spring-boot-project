@@ -6,7 +6,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.vedeshkin.project.dto.UserDto;
 import ru.vedeshkin.project.model.CustomUserDetails;
@@ -29,7 +28,7 @@ public class UserController {
     @GetMapping()
     public ModelAndView getAllUsers(@AuthenticationPrincipal CustomUserDetails user) {
         List<UserDto> users = userRepository.findAll().stream()
-                .map(UserDto::mapTo)
+                .map(UserDto::of)
                 .toList();
 
         ModelAndView mav = new ModelAndView("list-users");
