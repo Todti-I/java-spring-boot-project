@@ -37,4 +37,11 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ownerUser", cascade = CascadeType.ALL)
+    private List<Book> books = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ownerUser", cascade = CascadeType.ALL)
+    private List<Shop> shops = new ArrayList<>();
+
 }

@@ -52,7 +52,6 @@
             <div th:each="role : ${allRoles}" class="mb-1">
                 <input
                         th:id="|role-${role.id}|"
-                        th:disabled="${role.name == 'ROLE_READ_ONLY'}"
                         type="checkbox"
                         th:field="*{roleIds}"
                         th:value="${role.id}"

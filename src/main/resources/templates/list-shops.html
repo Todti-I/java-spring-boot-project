@@ -44,14 +44,14 @@
 <br/><br/>
 
 <div class="container">
-    <a th:if="${user.isAdmin()}" th:href="@{/shops/add}" class="btn btn-primary mb-4">Add Shop</a>
+    <a th:if="${user.canEdit()}" th:href="@{/shops/add}" class="btn btn-primary mb-4">Add Shop</a>
     <table th:if="${!shops.isEmpty()}" class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
             <th>Name</th>
             <th>Address</th>
             <th>Books Count</th>
-            <th th:if="${user.isAdmin()}"></th>
+            <th th:if="${user.canEdit()}">Actions</th>
         </tr>
         </thead>
         <tbody class="align-middle">
@@ -59,9 +59,21 @@
             <td th:text="${shop.name}"/>
             <td th:text="${shop.address}"/>
             <td th:text="${shop.books.size()}" class="text-center"/>
-            <td th:if="${user.isAdmin()}" class="text-center">
-                <a th:href="@{/shops/edit(shopId=${shop.id})}" class="btn btn-info">Update</a>
-                <a th:href="@{/shops/delete(shopId=${shop.id})}" class="btn btn-danger ml-2">Delete</a>
+            <td th:if="${user.canEdit()}" class="text-center">
+                <a
+                        th:if="${user.isAdmin() or shop.ownerUser?.id == user.getId()}"
+                        th:href="@{/shops/edit(shopId=${shop.id})}"
+                        class="btn btn-info"
+                >
+                    Update
+                </a>
+                <a
+                        th:if="${user.isAdmin() or shop.ownerUser?.id == user.getId()}"
+                        th:href="@{/shops/delete(shopId=${shop.id})}"
+                        class="btn btn-danger ml-2"
+                >
+                    Delete
+                </a>
             </td>
         </tr>
         </tbody>

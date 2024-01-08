@@ -37,6 +37,7 @@ public class BookDto {
         dto.setAuthor(book.getAuthor());
         dto.setPrice(book.getPrice());
         dto.setShopIds(book.getShops().stream().map(Shop::getId).toList());
+
         return dto;
     }
 

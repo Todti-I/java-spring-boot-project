@@ -44,7 +44,7 @@
 <br><br>
 
 <div class="container">
-    <a th:if="${user.isAdmin()}" th:href="@{/books/add}" class="btn btn-primary mb-4">Add Book</a>
+    <a th:if="${user.canEdit()}" th:href="@{/books/add}" class="btn btn-primary mb-4">Add Book</a>
     <table th:if="${!books.isEmpty()}" class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
@@ -52,7 +52,7 @@
             <th>Title</th>
             <th>Price</th>
             <th>Shops</th>
-            <th th:if="${user.isAdmin()}"></th>
+            <th th:if="${user.canEdit()}">Actions</th>
         </tr>
         </thead>
         <tbody class="align-middle">
@@ -65,9 +65,21 @@
                     <p th:text="${shop.name}" class="mb-0"/>
                 </th:block>
             </td>
-            <td th:if="${user.isAdmin()}" class="text-center">
-                <a th:href="@{/books/edit(bookId=${book.id})}" class="btn btn-info">Update</a>
-                <a th:href="@{/books/delete(bookId=${book.id})}" class="btn btn-danger ml-2">Delete</a>
+            <td th:if="${user.canEdit()}" class="text-center">
+                <a
+                        th:if="${user.isAdmin() or book.ownerUser?.id == user.getId()}"
+                        th:href="@{/books/edit(bookId=${book.id})}"
+                        class="btn btn-info"
+                >
+                    Update
+                </a>
+                <a
+                        th:if="${user.isAdmin() or book.ownerUser?.id == user.getId()}"
+                        th:href="@{/books/delete(bookId=${book.id})}"
+                        class="btn btn-danger ml-2"
+                >
+                    Delete
+                </a>
             </td>
         </tr>
         </tbody>

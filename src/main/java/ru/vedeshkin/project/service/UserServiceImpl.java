@@ -10,6 +10,7 @@ import ru.vedeshkin.project.repository.UserRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(UserDto userDto) {
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void create(UserDto userDto) {
         User user = new User();
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
@@ -42,17 +58,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public void saveRoles(UserDto userDto) {
+        List<Role> roles = roleRepository.findAllById(userDto.getRoleIds());
+        User user = userRepository.getReferenceById(userDto.getId());
+        user.setRoles(roles);
+        userRepository.save(user);
     }
 
     @Override
-    public List<UserDto> findAllUsers() {
-        List<User> users = userRepository.findAll();
-
-        return users.stream()
-                .map(UserDto::of)
-                .collect(Collectors.toList());
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 
 }

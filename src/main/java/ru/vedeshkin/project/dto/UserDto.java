@@ -36,14 +36,14 @@ public class UserDto {
     private List<Long> roleIds = new ArrayList<>();
 
     public static UserDto of(User user) {
-        UserDto userDto = new UserDto();
+        UserDto dto = new UserDto();
         String[] names = user.getName().split(" ");
-        userDto.setId(user.getId());
-        userDto.setFirstName(names.length > 0 ? names[0] : "");
-        userDto.setLastName(names.length > 1 ? names[1] : "");
-        userDto.setEmail(user.getEmail());
-        userDto.setRoleIds(user.getRoles().stream().map(Role::getId).toList());
-        return userDto;
+        dto.setId(user.getId());
+        dto.setFirstName(names.length > 0 ? names[0] : "");
+        dto.setLastName(names.length > 1 ? names[1] : "");
+        dto.setEmail(user.getEmail());
+        dto.setRoleIds(user.getRoles().stream().map(Role::getId).toList());
+        return dto;
     }
 
 }

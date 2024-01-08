@@ -4,13 +4,20 @@ import ru.vedeshkin.project.dto.UserDto;
 import ru.vedeshkin.project.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
-    void saveUser(UserDto userDto);
+    Optional<User> findById(Long id);
 
-    User findUserByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    List<UserDto> findAllUsers();
+    List<User> findAll();
+
+    void create(UserDto userDto);
+
+    void saveRoles(UserDto userDto);
+
+    void deleteById(Long id);
 
 }

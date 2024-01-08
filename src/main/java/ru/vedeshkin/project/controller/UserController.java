@@ -12,6 +12,7 @@ import ru.vedeshkin.project.entity.User;
 import ru.vedeshkin.project.model.CustomUserDetails;
 import ru.vedeshkin.project.repository.RoleRepository;
 import ru.vedeshkin.project.repository.UserRepository;
+import ru.vedeshkin.project.service.UserService;
 
 import java.util.List;
 
@@ -21,23 +22,19 @@ import java.util.List;
 public class UserController {
 
     private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(RoleRepository roleRepository, UserRepository userRepository) {
+    public UserController(RoleRepository roleRepository, UserService userService) {
         this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping()
     public ModelAndView getAllUsers(@AuthenticationPrincipal CustomUserDetails user) {
-        List<UserDto> users = userRepository.findAll().stream()
-                .map(UserDto::of)
-                .toList();
-
         ModelAndView mav = new ModelAndView("list-users");
         mav.addObject("user", user);
-        mav.addObject("users", users);
+        mav.addObject("users", userService.findAll());
 
         return mav;
     }
@@ -47,9 +44,7 @@ public class UserController {
                                         @RequestParam Long userId) {
         ModelAndView mav = new ModelAndView("user-roles-form");
         mav.addObject("user", userDetails);
-        userRepository.findById(userId).ifPresent(user -> {
-            mav.addObject("userDto", UserDto.of(user));
-        });
+        userService.findById(userId).ifPresent(user -> mav.addObject("userDto", UserDto.of(user)));
         mav.addObject("allRoles", roleRepository.findAll());
 
         return mav;
@@ -57,17 +52,15 @@ public class UserController {
 
     @PostMapping("/roles")
     public String saveUserRoles(@ModelAttribute UserDto userDto) {
-        List<Role> roles = roleRepository.findAllById(userDto.getRoleIds());
-        User user = userRepository.getReferenceById(userDto.getId());
-        user.setRoles(roles);
-        userRepository.save(user);
+        userService.saveRoles(userDto);
 
         return "redirect:/users";
     }
 
     @GetMapping("/delete")
     public String deleteUser(@RequestParam Long userId) {
-        userRepository.deleteById(userId);
+        userService.deleteById(userId);
+
         return "redirect:/users";
     }
 

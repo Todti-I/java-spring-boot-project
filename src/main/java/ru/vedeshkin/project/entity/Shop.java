@@ -30,4 +30,8 @@ public class Shop {
     @ManyToMany(mappedBy = "shops")
     private List<Book> books = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_user_id", referencedColumnName = "id")
+    private User ownerUser;
+
 }

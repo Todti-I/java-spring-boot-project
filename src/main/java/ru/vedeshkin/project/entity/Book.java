@@ -38,4 +38,8 @@ public class Book {
     )
     private List<Shop> shops = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_user_id", referencedColumnName = "id")
+    private User ownerUser;
+
 }

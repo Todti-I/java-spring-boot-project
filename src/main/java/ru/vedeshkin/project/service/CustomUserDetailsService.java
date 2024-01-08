@@ -10,6 +10,7 @@ import ru.vedeshkin.project.entity.User;
 import ru.vedeshkin.project.model.CustomUserDetails;
 import ru.vedeshkin.project.repository.UserRepository;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,11 +25,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(usernameOrEmail);
-        if (user == null) {
+        Optional<User> userOptional = userRepository.findByEmail(usernameOrEmail);
+        if (userOptional.isEmpty()) {
             throw new UsernameNotFoundException("Invalid email or password");
         }
-        return new CustomUserDetails(user);
+        return new CustomUserDetails(userOptional.get());
     }
 
 }

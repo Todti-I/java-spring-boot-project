@@ -1,4 +1,4 @@
-INSERT INTO roles (name) VALUES ('ROLE_READ_ONLY'), ('ROLE_ADMIN');
+INSERT INTO roles (name) VALUES ('ROLE_READ_ONLY'), ('ROLE_USER'), ('ROLE_ADMIN');
 
 INSERT INTO books (title, author, price) VALUES
 ('The Master and Margarita', 'Mikhail Bulgakov', 700),

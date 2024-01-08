@@ -50,16 +50,14 @@
     <table th:if="${!users.isEmpty()}" class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
             <th>Email</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody class="align-middle">
         <tr th:each="user: ${users}">
-            <td th:text="${user.firstName}"></td>
-            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
             <td class="text-center">
                 <a th:href="@{/users/change-roles(userId=${user.id})}" class="btn btn-info">Change Roles</a>

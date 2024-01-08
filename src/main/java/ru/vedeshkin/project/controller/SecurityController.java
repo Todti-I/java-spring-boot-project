@@ -15,6 +15,7 @@ import ru.vedeshkin.project.model.CustomUserDetails;
 import ru.vedeshkin.project.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class SecurityController {
@@ -47,11 +48,11 @@ public class SecurityController {
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") UserDto userDto,
-                               BindingResult result,
-                               Model model) {
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
+                           BindingResult result,
+                           Model model) {
+        Optional<User> existingUser = userService.findByEmail(userDto.getEmail());
 
-        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
+        if (existingUser.isPresent()) {
             result.rejectValue("email", null,
                     "На этот адрес электронной почты уже зарегистрирована учетная запись.");
         }
@@ -61,7 +62,8 @@ public class SecurityController {
             return "/register";
         }
 
-        userService.saveUser(userDto);
+        userService.create(userDto);
+
         return "redirect:/register?success";
     }
 
